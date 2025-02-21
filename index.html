@@ -9,31 +9,28 @@
 </head>
 
 <body>
-
     <div class="container">
         <h2>UTM to Latitude/Longitude Converter</h2>
-
-        <!-- UTM Input Section -->
-        <label>Easting & Northing:</label>
+        
+        <!-- Single Conversion Section -->
+        <label for="utmInput">Easting & Northing:</label>
         <input type="text" id="utmInput" placeholder="Easting Northing">
         <button onclick="convertUTM()">Convert</button>
-
-        <label>Latitude & Longitude:</label>
+        <label for="output">Latitude & Longitude:</label>
         <textarea id="output" readonly></textarea>
 
         <!-- Bulk Upload Section -->
-        <div>
-            <label>Upload UTM CSV:</label>
-            <input type="file" id="bulkUpload">
-            <button onclick="handleFileUpload()">Upload</button>
-        </div>
+        <label for="bulkUploadFile">Upload UTM CSV:</label>
+        <input type="file" id="bulkUploadFile" onchange="processBulkUpload()">
+        <br>
 
         <div class="button-group">
             <button onclick="copyOutput()">Copy</button>
             <button onclick="clearOutput()" class="clear-btn">Clear</button>
         </div>
 
-        <button id="downloadBtn" onclick="downloadCSV()" disabled>Download CSV</button>
+        <!-- Download Button for Bulk Output -->
+        <button id="downloadBtn" onclick="downloadBulkOutput()" style="display:none;">Download Output</button>
 
         <div class="footer">Created by Raza</div>
     </div>
