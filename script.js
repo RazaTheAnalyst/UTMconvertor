@@ -53,4 +53,25 @@ function utmToLatLon(easting, northing, zoneNumber, northernHemisphere = true) {
     lon = longOrigin + lon * (180 / Math.PI);
 
     return { latitude: lat, longitude: lon };
+    // Convert UTM to Latitude/Longitude
+function convertUTM() {
+    let utmValues = document.getElementById('utmInput').value.trim().split(" ");
+    
+    if (utmValues.length !== 2) {
+        document.getElementById('output').value = "Please enter both Easting and Northing separated by a space.";
+        return;
+    }
+
+    let easting = parseFloat(utmValues[0]);
+    let northing = parseFloat(utmValues[1]);
+    let zone = 40; // Default zone for UAE
+
+    if (isNaN(easting) || isNaN(northing)) {
+        document.getElementById('output').value = "Invalid values for Easting or Northing.";
+        return;
+    }
+
+    let latLon = utmToLatLon(easting, northing, zone);
+    document.getElementById('output').value = `Latitude: ${latLon.latitude.toFixed(6)}, Longitude: ${latLon.longitude.toFixed(6)}`;
 }
+
