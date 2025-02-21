@@ -17,7 +17,7 @@ body {
     text-align: center;
 }
 
-input, select, button, textarea {
+input, button, textarea {
     width: 100%;
     margin: 10px 0;
     padding: 12px;
@@ -56,10 +56,4 @@ button:hover {
     margin-top: 15px;
     font-size: 14px;
     color: gray;
-}
-
-@media (max-width: 600px) {
-    .container {
-        width: 90%;
-    }
 }
