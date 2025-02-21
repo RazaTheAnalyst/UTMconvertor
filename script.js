@@ -1,8 +1,7 @@
-let bulkResults = []; // Array to store results for bulk upload
-
 // Convert UTM to Latitude/Longitude
 function convertUTM() {
     let utmValues = document.getElementById('utmInput').value.trim().split(" ");
+    
     if (utmValues.length !== 2) {
         document.getElementById('output').value = "Please enter both Easting and Northing separated by a space.";
         return;
@@ -12,88 +11,13 @@ function convertUTM() {
     let northing = parseFloat(utmValues[1]);
     let zone = 40; // Default zone for UAE
 
-    let latLon = utmToLatLon(easting, northing, zone);
-    document.getElementById('output').value = `${latLon.latitude}, ${latLon.longitude}`;
-}
-
-// Copy the output to clipboard
-function copyOutput() {
-    let outputField = document.getElementById('output');
-    outputField.select();
-    document.execCommand('copy');
-}
-
-// Clear input and output fields
-function clearOutput() {
-    document.getElementById('utmInput').value = ""; // Clear UTM input
-    document.getElementById('output').value = ""; // Clear the output area
-    document.getElementById("downloadBtn").disabled = true; // Disable download button
-}
-
-// Handle Bulk File Upload
-function handleFileUpload() {
-    const fileInput = document.getElementById('bulkUpload');
-    const file = fileInput.files[0];
-
-    if (!file) {
-        alert("Please select a file first!");
+    if (isNaN(easting) || isNaN(northing)) {
+        document.getElementById('output').value = "Invalid values for Easting or Northing.";
         return;
     }
 
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const csvData = event.target.result;
-        processCSV(csvData);
-    };
-
-    reader.readAsText(file);
-}
-
-// Process CSV file content
-function processCSV(csvData) {
-    const lines = csvData.split("\n");
-    bulkResults = [];
-
-    lines.forEach((line, index) => {
-        const values = line.split(",");
-        if (values.length === 2) {
-            const easting = parseFloat(values[0].trim());
-            const northing = parseFloat(values[1].trim());
-            const latLon = utmToLatLon(easting, northing, 40); // Assuming zone 40 for simplicity
-
-            if (latLon) {
-                // Keep Easting, Northing, Latitude, Longitude on the same line
-                bulkResults.push([easting, northing, latLon.latitude.toFixed(6), latLon.longitude.toFixed(6)]);
-            }
-        }
-    });
-
-    if (bulkResults.length > 0) {
-        // Enable the download button
-        document.getElementById("downloadBtn").disabled = false;
-
-        // Show the confirmation popup
-        alert("Bulk data processed successfully. You can now download the output.");
-    } else {
-        alert("No valid UTM data found in the uploaded file.");
-    }
-}
-
-// Download Bulk Output as CSV
-function downloadCSV() {
-    const header = "Easting,Northing,Latitude,Longitude\n";
-    let csvContent = header;
-
-    bulkResults.forEach(row => {
-        // The UTM coordinates (Easting, Northing) are now in front of the converted Latitude and Longitude
-        csvContent += row.join(",") + "\n";
-    });
-
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "utm_to_lat_lon.csv";
-    link.click();
+    let latLon = utmToLatLon(easting, northing, zone);
+    document.getElementById('output').value = `Latitude: ${latLon.latitude.toFixed(6)}, Longitude: ${latLon.longitude.toFixed(6)}`;
 }
 
 // Convert UTM to Lat/Lon function
