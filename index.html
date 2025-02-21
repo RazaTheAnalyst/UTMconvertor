@@ -1,24 +1,49 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTM to Lat/Lon Converter</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <h2>UTM to Latitude/Longitude Converter</h2>
+
         <label>Easting & Northing:</label>
         <input type="text" id="utmInput" placeholder="Easting Northing">
+
+        <label>Zone:</label>
+        <select id="zoneInput">
+            <option value="40">Zone 40 (Default)</option>
+            <option value="41">Zone 41</option>
+            <option value="42">Zone 42</option>
+            <option value="43">Zone 43</option>
+        </select>
+
         <button onclick="convertUTM()">Convert</button>
+
         <label>Latitude & Longitude:</label>
         <textarea id="output" readonly></textarea>
-        <button onclick="copyOutput()">Copy</button>
-        <button onclick="clearOutput()" class="clear-btn">Clear</button>
+
+        <div class="button-group">
+            <button onclick="copyOutput()">Copy</button>
+            <button onclick="clearOutput()" class="clear-btn">Clear</button>
+        </div>
+
+        <h3>Bulk Upload</h3>
+        <input type="file" id="bulkUpload" accept=".csv" onchange="handleFileUpload()">
+
+        <div class="button-group">
+            <button onclick="downloadCSV()" id="downloadBtn" disabled>Download Output</button>
+        </div>
+
         <div class="footer">Created by Raza</div>
     </div>
+
     <script src="script.js"></script>
 </body>
+
 </html>
